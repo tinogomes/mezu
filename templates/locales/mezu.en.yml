@@ -1,0 +1,45 @@
+en:
+  mezu:
+    are_you_sure: "Are you sure?"
+    attributes:
+      body: "Body"
+      created_at: "Created At"
+      expires_at: "Expires At"
+      level: "Level"
+      messageable_type: "Model"
+      messageable_id: "Record ID"
+      title: "Title"
+      updated_at: "Updated At"
+    cancel: "Cancel"
+    create: "Create"
+    delete: "Delete"
+    edit: "Edit"
+    flash:
+      created_successful: "Message created successfully"
+      deleted_successful: "Message deleted successfully"
+      record_not_found: "No message foudn this ID"
+      updated_successful: "Message updated successfully"
+    global_message: "Send to everybody"
+    invalid_recipient: "Invalid recipient"
+    languages:
+      pt-BR: "Português"
+      en: "English"
+    legend: "Legend"
+    levels:
+      error: "Error"
+      info: "Info"
+      warn: "Warn"
+    new_message: "New message"
+    no_messages: "No messages"
+    pagination:
+      current: " - %{page} - "
+      next: "Next page"
+      previous: "Previous Page"
+    sent_to: "Sent to"
+    sent_to_everybody: "Sent to everybody"
+    titles:
+      edit: "Editing Message"
+      index: "Messages List"
+      new: "New Message"
+      remove: "Remove Message"
+    update: "Update"

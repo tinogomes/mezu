@@ -1,0 +1,9 @@
+<h2><%= t("mezu.titles.edit") %></h2>
+
+<%= form_for :message, :url => mezu_message_path(@message), :html => {:method => "put"} do |f| -%>
+	<%= render :partial => 'form', :locals => {:f => f} %>
+	<ul id="actions">
+		<li><%= f.submit t("mezu.update") %></li>
+		<li><%= link_to t("mezu.cancel"), mezu_messages_path %></li>
+	</ul>
+<% end %>

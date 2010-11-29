@@ -1,0 +1,27 @@
+<h2><%= t("mezu.titles.index") %></h2>
+
+<% if @messages.any? %>
+	<%= render :partial => 'pagination' %>
+	<%= link_to t("mezu.new_message"), new_mezu_message_path %>
+
+	<div id="legend">
+		<p><%= t("mezu.legend") %></p>
+		<ul>
+			<% t("mezu.levels").each do |level, label| %>
+				<li class="<%= level %>"><%= label %></p>
+			<% end %>
+		</ul>
+	</div>
+
+	<div id="messages">
+		<% for message in @messages %>
+			<%= render :partial => "message", :locals => {:message => message, :actions => true} %>
+		<% end %>
+	</div>
+
+	<%= render :partial => 'pagination' %>
+	<%= link_to t("mezu.new_message"), new_mezu_message_path %>
+<% else %>
+	<%= link_to t("mezu.new_message"), new_mezu_message_path %>
+	<p><%= t("mezu.no_messages") %></p>
+<% end %>

@@ -1,0 +1,42 @@
+<div class="message <%= message.level %>">
+	<h3><%= message.title %></h3>
+
+	<ul class="meta">
+		<li class="created-at">
+			<strong><%= t("mezu.attributes.created_at") %></strong>
+			<%= l(message.created_at) %>
+		</li>
+		<% if message.expires_at? %>
+			<li class="expires-at">
+				<strong><%= t("mezu.attributes.expires_at") %></strong>
+				<%= l(message.expires_at) %>
+			</li>
+		<% end %>
+	</ul>
+
+	<ul class="meta">
+	</ul>
+
+	<p class="body"><%= message.body %></p>
+
+	<p class="sent-to">
+		<% if message.messageable %>
+			<%= t("mezu.sent_to") %>
+			<pre><%= message.messageable.attributes.to_yaml %></pre>
+		<% else %>
+			<% if message.messageable_id? %>
+				<%= t("mezu.invalid_recipient") %>
+				[<%= message.messageable_type %>, <%= message.messageable_id %>]
+			<%	else  %>
+				<%= t("mezu.sent_to_everybody") %>
+			<% end %>
+		<% end %>
+	</p>
+
+	<% if defined?(actions) %>
+		<ul class="actions">
+			<li><%= link_to t("mezu.edit"), edit_mezu_message_path(message) %></li>
+			<li><%= link_to t("mezu.delete"), remove_mezu_message_path(message) %></li>
+		</ul>
+	<% end %>
+</div>

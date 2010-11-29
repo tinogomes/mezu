@@ -1,0 +1,274 @@
+* {
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	background: #e9e9e9;
+	font-family: "lucida grande", arial, sans-serif;
+	font-size: 13px;
+}
+
+#header {
+	background: #2d3135;
+	border-bottom: 10px solid #16181a;
+	padding: 10px;
+}
+
+#locales {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+#locales li {
+  list-style: none;
+}
+
+#locales li.current {
+  color: #f1ff74;
+  list-style: disc;
+}
+
+#locales li a {
+  text-decoration: none;
+  color: #fff;
+}
+
+#locales li.current a {
+  color: #f1ff74;
+}
+
+#locales li a:hover {
+  color: #999;
+}
+
+h1 a {
+	color: #fff;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 42px;
+	text-shadow: 1px 1px 2px #222;
+	text-decoration: none;
+}
+
+h1 a:hover {
+	color: #50b5c2;
+}
+
+h2 {
+	border-bottom: 1px solid #ccc;
+	color: #333;
+	font-family: helvetica, arial, sans-serif;
+	font-size: 36px;
+	margin-bottom: 20px;
+	padding-bottom: 5px;
+}
+
+.container {
+	margin: 0 auto;
+	width: 960px;
+}
+
+.notice {
+	background: #060 url(/rosetta/notice.png) no-repeat 10px center;
+	color: #fff;
+	line-height: 30px;
+	margin-top: 20px;
+	padding: 5px 40px;
+	width: 880px;
+}
+
+#content {
+	background: #fff;
+	border: 1px solid #ccc;
+	margin: 20px auto;
+	padding: 20px;
+	position: relative;
+	width: 918px;
+}
+
+/*= PAGINATE */
+.paginate {
+  float: right;
+	list-style: none;
+}
+
+.paginate a {
+	color: #03c;
+	text-decoration: none;
+}
+
+.paginate a:hover {
+	text-decoration: underline;
+}
+
+.paginate li {
+	display: inline;
+	margin-left: 10px;
+}
+
+.top {
+	position: absolute;
+	right: 0;
+	top: 0;
+}
+
+/* ACTIONS */
+.actions {
+  list-style: none;
+  position: absolute;
+  right: 10px;
+  top: 40px;
+}
+
+.actions li {
+  display: inline;
+  font-size: 11px;
+}
+
+.actions a {
+  color: #03c;
+}
+
+/* MESSAGES */
+#legend {
+  height: 20px;
+  margin-left: 20px;
+  margin-top: 10px;
+}
+
+#legend ul, #legend p {
+  display: inline;
+}
+
+#legend li {
+  display: inline-block;
+  list-style: none;
+  margin-left: 20px;
+  text-align: center;
+  width: 100px;
+}
+
+.message {
+  margin: 5px 0;
+  padding: 10px;
+  position: relative;
+}
+
+.warn {
+  background: #ffc;
+}
+
+.error {
+  background: #ffc5cc;
+}
+
+.info {
+  background: #E3DFFF;
+}
+
+#messages {
+  margin: 15px 0;
+}
+
+.meta {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.meta li {
+  font-size: 11px;
+  list-style: none;
+}
+
+.meta strong {
+  display: inline-block;
+  text-align: right;
+  width: 130px;
+}
+
+.meta strong:after {
+  content: ":";
+  margin-right: 5px;
+}
+
+h3 {
+  margin-bottom: 10px;
+  width: 500px;
+}
+
+.body {
+  width: 750px;
+}
+
+pre {
+  white-space: pre-wrap;
+}
+
+.sent-to {
+  margin-top: 15px;
+}
+
+/* NEW/EDIT FORM */
+#errors {
+  margin: 10px 20px 30px 150px;
+  width: 400px;
+}
+
+#errors li {
+  color: #900;
+  list-style: square;
+}
+
+form p {
+  margin-bottom: 10px;
+}
+
+div.field_with_errors {
+  display: inline;
+}
+
+div.field_with_errors label {
+  font-weight: bold;
+}
+
+label {
+  display: inline-block;
+  text-align: right;
+  vertical-align: top;
+  width: 150px;
+}
+
+label.side {
+  display: inline;
+}
+
+label:after {
+  content: ":";
+  margin-right: 5px;
+}
+
+#actions {
+  list-style: none;
+  margin: 20px 10px 10px 10px;
+}
+
+#actions li {
+  display: inline;
+  margin-right: 10px;
+}
+
+#actions input[type=submit] {
+  margin-left: 140px;
+}
+
+#remove-actions {
+  list-style: none;
+  margin: 20px 10px 10px 0;
+}
+
+#remove-actions li {
+  display: inline;
+  margin-right: 10px;
+}

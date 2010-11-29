@@ -1,0 +1,16 @@
+<h2><%= t("mezu.titles.remove") %></h2>
+
+<%= form_for :message, :url => mezu_message_path(@message), :html => {:method => "delete"} do |f| -%>
+	<%= render :partial => "message", :locals => {:message => @message}  %>
+	<ul id="remove-actions">
+		<li><%= f.submit t("mezu.delete") %></li>
+		<li><%= link_to t("mezu.cancel"), mezu_messages_path %></li>
+	</ul>
+<% end -%>
+
+<script type="text/javascript">
+	document.forms[0].onsubmit = function() {
+		var result = confirm("<%= raw t(%[mezu.are_you_sure]) %>");
+		return result;
+	};
+</script>

@@ -1,0 +1,58 @@
+<ul id="errors">
+	<% for on_attribute in @message.errors %>
+		<li>
+			<span class="field"><%= t("mezu.attributes.#{on_attribute}") %></span>
+			<%= @message.errors[on_attribute].to_sentence %>
+		</li>
+	<% end %>
+</ul>
+<p>
+	<%= f.label :title, t("mezu.attributes.title") %>
+	<%= f.text_field :title %>
+</p>
+<p>
+	<%= f.label :level, t("mezu.attributes.level") %>
+	<%= f.select :level, @levels %>
+</p>
+<p>
+	<%= f.label :body, t("mezu.attributes.body") %>
+	<%= f.text_area :body %>
+</p>
+<p>
+	<%= f.label :expires_at, t("mezu.attributes.expires_at") %>
+	<%= f.text_field  :expires_at %>
+</p>
+<p>
+	<%= f.label :messageable_type, t("mezu.attributes.messageable_type") %>
+	<%= f.select :messageable_type, [["-----", ""]] << Mezu.models, {:include_blank => t("mezu.global_message")} %>
+	<%= f.label :messageable_id, t("mezu.attributes.messageable_id"), :class => "side" %>
+	<%= f.text_field :messageable_id %>
+</p>
+
+<% unless @message.new_record? %>
+	<p>
+		<%= f.label :created_at, t("mezu.attributes.created_at") %>
+		<%= f.text_field :created_at, :readonly => true %>
+	</p>
+	<p>
+		<%= f.label :updated_at, t("mezu.attributes.updated_at") %>
+		<%= f.text_field :updated_at, :readonly => true %>
+	</p>
+<% end %>
+
+<script type="text/javascript">
+	var options = document.getElementById("message_messageable_type").options;
+
+	options[1].disabled = true;
+
+	if (options[1].selected) {
+		options[0].selected = true;
+	}
+
+	document.forms[0].onsubmit = function() {
+		if (options[0].selected) {
+			document.getElementById("message_messageable_id").value = "";
+		};
+		return true;
+	};
+</script>

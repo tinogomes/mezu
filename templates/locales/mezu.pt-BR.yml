@@ -1,0 +1,45 @@
+pt-BR:
+  mezu:
+    are_you_sure: "Tem certeza?"
+    attributes:
+      body: "Mensagem"
+      created_at: "Data de Criação"
+      expires_at: "Data de Expiração"
+      level: "Tipo"
+      messageable_type: "Modelo"
+      messageable_id: "ID do Registro"
+      title: "Título"
+      updated_at: "Última Atualização em"
+    cancel: "Cancelar"
+    create: "Criar"
+    delete: "Remover"
+    edit: "Editar"
+    flash:
+      created_successful: "Mensagem criada com sucesso"
+      deleted_successful: "Mensagem removida com sucesso"
+      record_not_found: "Nenhuma mensagem encontrada"
+      updated_successful: "Mensagem atualizada com sucesso"
+    global_message: "Enviar para todos"
+    invalid_recipient: "Destinatário inválido"
+    languages:
+      pt-BR: "Português"
+      en: "English"
+    legend: "Legenda"
+    levels:
+      error: "Erro"
+      info: "Info"
+      warn: "Alerta"
+    new_message: "Nova Mensagem"
+    no_messages: "Sem mensagens"
+    pagination:
+      current: " - %{page} - "
+      next: "Próxima"
+      previous: "Anterior"
+    sent_to: "Enviado para"
+    sent_to_everybody: "Enviado para todos"
+    titles:
+      edit: "Editando Mensagem"
+      index: "Listando Mensagens"
+      new: "Criando Mensagem"
+      remove: "Remover Mensagem"
+    update: "Atualizar"

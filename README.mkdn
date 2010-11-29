@@ -1,0 +1,140 @@
+# Mezu
+
+Mezu is a Rails 3 Engine to manager system messages globally, or for a specific object.
+
+**Tested only with Ruby 1.9.2**
+
+## How to Install ?
+
+It's a piece of cake!
+
+### Add on your Gemfile
+
+	gem "mezu"
+
+### Install gem
+
+	$ bundle install #Off course, you can execute `gem install mezu`
+
+### Execute Mezu generator
+
+	rails generate mezu:install
+
+### Execute apply migrations
+
+	rake db:migrate
+
+## What mezu:install generator do ?
+
+This step create some files on your Rails project...
+
+	config/db/yyyymmddhhmmss_create_mezu_messages.rb
+	config/initializers/mezu.rb
+	public/mezu/mezu.css
+
+### Details about created migration.
+
+	class CreateMezuMessages < ActiveRecord::Migration
+	  def self.up
+	    create_table :mezu_messages do |t|
+	      t.string        :title
+	      t.string        :level, :limit => 10
+	      t.string        :body
+	      t.datetime      :expires_at
+	      t.datetime      :read_at
+	      t.references    :messageable, :polymorphic => true, :null => true
+
+	      t.timestamps
+	    end
+
+	    add_index :mezu_messages, [:messageable_type, :messageable_id]
+	  end
+
+	  def self.down
+	    drop_table :mezu_messages
+	  end
+	end
+
+## How to use?
+
+This engine adds on your app the path /mezu, to CRUD your mezu system messages
+
+To protect access on your CRUD your mezu system messages, go to config/initializers/mezu.rb file and implement your powerful authentication protection.
+
+## Examples
+
+### To display global system messages on your view:
+
+	# app/controllers/application_controller.rb
+	class ApplicationController < ...
+		...
+		before_filter do load_global_mezu_messages
+			@mezu_messages = Mezu::Message.global.all
+		end
+		...
+	end
+
+	# app/views/layouts/application.html.erb
+	...
+	<% if @mezu_messages.any? %>
+		<ul id="global-mezu-messages">
+			<% @mezu_messages.each do |message| %>
+				<li class="<%= message.level %>"><%= message.body %></li>
+			<% end %>
+		</ul>
+	<% end %>
+	...
+
+### To display user's system messages, supposing you have current_user helper method.
+
+	# app/controllers/application_controllers.rb
+	class ApplicationController < ...
+		...
+		before_filter do load_mezu_messages_for_current_user
+			@user_mezu_messages = Mezu::Message.for_messageable(current_user).all
+		end
+		...
+	end
+
+	# app/views/layouts/application.html.erb
+	...
+	<% if @user_mezu_messages.any? %>
+		<ul id="user-mezu-messages">
+			<% @user_mezu_messages.each do |message| %>
+				<li class="<%= message.level %>"><%= message.body %></li>
+			<% end %>
+		</ul>
+	<% end %>
+	...
+
+### An propose to use with I18n
+
+Create some pattern on your messages, like (I18n: key)...
+
+	Mezu::Message.create :title => "I18n: some.system.message.title", :body => "I18n: some.system.message.body"
+
+On layout/views:
+
+	<%= message.body.match(/^I18n:\s(\S+)$/) ? t($1) : message.body %>
+
+On your I18n file (config/locale/en.yml)
+
+	:en
+		...
+		some:
+			system:
+				message:
+					body:  "Body message on I18n English file"
+					title: "Title message on I18n English file"
+
+## Mainteiner
+
+- [Tino Gomes](http://github.com/tinogomes)
+
+## Contributors
+
+- [Nando Vieira](http://github.com/fnando)
+
+## License
+
+Copyright (c) 2010 Celestino Gomes, released under the Creative Commons license

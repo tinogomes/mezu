@@ -1,0 +1,17 @@
+<% if previous_page? || next_page? %>
+	<ul class="paginate">
+		<% if previous_page? %>
+			<li><%= link_to t("mezu.pagination.previous"), mezu_messages_path(:p => current_page - 1) %></li>
+		<% else %>
+			<li><%= t("mezu.pagination.previous") %></li>
+		<% end %>
+
+		<li><%= t("mezu.pagination.current", :page => current_page) %></li>
+
+		<% if next_page? %>
+			<li><%= link_to t("mezu.pagination.next"), mezu_messages_path(:p => current_page + 1) %></li>
+		<% else %>
+			<li><%= t("mezu.pagination.next") %></li>
+		<% end %>
+	</ul>
+<% end %>

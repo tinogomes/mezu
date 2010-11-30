@@ -1,6 +1,6 @@
 # Mezu
 
-Mezu is a Rails 3 Engine to manager system messages globally, or for a specific object.
+Mezu is a Rails 3 Engine to manage system messages globally, or for a specific object.
 
 **Tested only with Ruby 1.9.2**
 
@@ -14,7 +14,7 @@ It's a piece of cake!
 
 ### Install gem
 
-	$ bundle install #Off course, you can execute `gem install mezu`
+	$ bundle install # Of course, you can execute `gem install mezu`
 
 ### Execute Mezu generator
 
@@ -32,7 +32,7 @@ This step create some files on your Rails project...
 	config/initializers/mezu.rb
 	public/mezu/mezu.css
 
-### Details about created migration.
+### Details about the created migration.
 
 	class CreateMezuMessages < ActiveRecord::Migration
 	  def self.up
@@ -59,7 +59,7 @@ This step create some files on your Rails project...
 
 This engine adds on your app the path /mezu, to CRUD your mezu system messages
 
-To protect access on your CRUD your mezu system messages, go to config/initializers/mezu.rb file and implement your powerful authentication protection.
+To protect mezu system messages access on your CRUD, go to config/initializers/mezu.rb file and implement your powerful authentication protection.
 
 ## Examples
 
@@ -67,21 +67,21 @@ To protect access on your CRUD your mezu system messages, go to config/initializ
 
 	# app/controllers/application_controller.rb
 	class ApplicationController < ...
-		...
-		before_filter do load_global_mezu_messages
-			@mezu_messages = Mezu::Message.global.all
-		end
-		...
+	  ...
+	  before_filter do load_global_mezu_messages
+	    @mezu_messages = Mezu::Message.global.all
+	  end
+	  ...
 	end
 
 	# app/views/layouts/application.html.erb
 	...
 	<% if @mezu_messages.any? %>
-		<ul id="global-mezu-messages">
-			<% @mezu_messages.each do |message| %>
-				<li class="<%= message.level %>"><%= message.body %></li>
-			<% end %>
-		</ul>
+	  <ul id="global-mezu-messages">
+	    <% @mezu_messages.each do |message| %>
+	      <li class="<%= message.level %>"><%= message.body %></li>
+	    <% end %>
+	  </ul>
 	<% end %>
 	...
 
@@ -89,21 +89,21 @@ To protect access on your CRUD your mezu system messages, go to config/initializ
 
 	# app/controllers/application_controllers.rb
 	class ApplicationController < ...
-		...
-		before_filter do load_mezu_messages_for_current_user
-			@user_mezu_messages = Mezu::Message.for_messageable(current_user).all
-		end
-		...
+	  ...
+	  before_filter do load_mezu_messages_for_current_user
+	    @user_mezu_messages = Mezu::Message.for_messageable(current_user).all
+	  end
+	  ...
 	end
 
 	# app/views/layouts/application.html.erb
 	...
 	<% if @user_mezu_messages.any? %>
-		<ul id="user-mezu-messages">
-			<% @user_mezu_messages.each do |message| %>
-				<li class="<%= message.level %>"><%= message.body %></li>
-			<% end %>
-		</ul>
+	  <ul id="user-mezu-messages">
+	    <% @user_mezu_messages.each do |message| %>
+	      <li class="<%= message.level %>"><%= message.body %></li>
+	    <% end %>
+	  </ul>
 	<% end %>
 	...
 
@@ -120,20 +120,21 @@ On layout/views:
 On your I18n file (config/locale/en.yml)
 
 	:en
-		...
-		some:
-			system:
-				message:
-					body:  "Body message on I18n English file"
-					title: "Title message on I18n English file"
+	...
+	  some:
+	    system:
+	      message:
+	        body:  "Body message on I18n English file"
+	        title: "Title message on I18n English file"
 
-## Mainteiner
+## Maintainer
 
 - [Tino Gomes](http://github.com/tinogomes)
 
 ## Contributors
 
 - [Nando Vieira](http://github.com/fnando)
+- [PotHix](http://github.com/pothix)
 
 ## License
 

@@ -19,4 +19,9 @@ Mezu.configure do |config|
   # }
   #
   config.authenticate = proc { true }
+
+  # If you want to configure which ActiveRecord models will be displayed on new message,
+  # uncomment the following line and replace it with your own list.
+  #
+  #   config.models = %w[User]
 end

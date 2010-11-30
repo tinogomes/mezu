@@ -23,7 +23,7 @@ describe Mezu::MessagesController do
       response.should render_template("new")
 
       assigns(:message).should be_new_record
-      assigns(:app_models).should == ["Post"]
+      assigns(:app_models).should == ["Post", "User"]
     end
   end
 

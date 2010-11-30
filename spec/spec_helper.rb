@@ -29,3 +29,4 @@ RSpec.configure do |config|
 end
 
 require_dependency "post"
+require_dependency "user"

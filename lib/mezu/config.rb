@@ -5,7 +5,7 @@ module Mezu
 
   module Config
     class << self
-      attr_accessor :authenticate, :on_load
+      attr_accessor :authenticate, :on_load, :models
     end
 
     def self.autoload_locales!

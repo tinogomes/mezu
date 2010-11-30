@@ -12,6 +12,11 @@ ActiveRecord::Schema.define(:version => 0) do
 
   add_index :mezu_messages, [:messageable_type, :messageable_id]
 
+  create_table :users do |t|
+    t.string :login
+    t.string :password
+  end
+
   create_table :posts do |t|
     t.string :title
   end

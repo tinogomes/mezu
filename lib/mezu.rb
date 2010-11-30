@@ -6,10 +6,12 @@ module Mezu
   extend self
 
   def models
+    return Config.models if Config.models
     # Force load all models
     Dir["app/models/**/*.rb"].each do |f|
       begin
-        f.gsub(%r[^app/models/(.*?)\.rb$], '\\1').classify.constantize
+        load f
+        # f.gsub(%r[^app/models/(.*?)\.rb$], '\\1').classify.constantize
       rescue
         nil
       end

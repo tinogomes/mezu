@@ -7,7 +7,13 @@ module Mezu
 
   def models
     # Force load all models
-    Dir["app/models/**/*.rb"].each {|f| f.gsub(%r[^app/models/(.*?)\.rb$], '\\1').classify.constantize rescue nil }
+    Dir["app/models/**/*.rb"].each do |f|
+      begin
+        f.gsub(%r[^app/models/(.*?)\.rb$], '\\1').classify.constantize
+      rescue
+        nil
+      end
+    end
     ActiveRecord::Base.descendants.map(&:name).reject {|m| m.start_with?("Mezu::")}
   end
 

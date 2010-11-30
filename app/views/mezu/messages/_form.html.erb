@@ -24,7 +24,7 @@
 </p>
 <p>
 	<%= f.label :messageable_type, t("mezu.attributes.messageable_type") %>
-	<%= f.select :messageable_type, [["-----", ""]] << Mezu.models, {:include_blank => t("mezu.global_message")} %>
+	<%= f.select :messageable_type, [["-----", ""]] + Mezu.models.map {|m| [m,m]}, {:include_blank => t("mezu.global_message")} %>
 	<%= f.label :messageable_id, t("mezu.attributes.messageable_id"), :class => "side" %>
 	<%= f.text_field :messageable_id %>
 </p>

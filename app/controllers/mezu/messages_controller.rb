@@ -3,7 +3,7 @@ module Mezu
     respond_to :html
 
     before_filter :load_message, :except => [:index, :new, :create]
-    before_filter :load_levels, :except => [:index]
+    before_filter :load_levels, :except => [:index, :read]
     before_filter :normalize_params, :only => [:create, :update]
 
     rescue_from ActiveRecord::RecordNotFound, :with => :mezu_message_not_found
@@ -38,6 +38,12 @@ module Mezu
       @message.destroy
       flash[:notice] = t("mezu.flash.deleted_successful")
       redirect_to mezu_messages_path
+    end
+
+    def read
+      render(:nothing => true, :status => 404) and return unless request.put?
+      @message.read!
+      render :text => "Ok"
     end
 
     private

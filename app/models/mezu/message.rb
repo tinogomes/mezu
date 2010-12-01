@@ -41,6 +41,10 @@ module Mezu
       end
     }
 
+    # unread - A Scope to filter only unread messages
+    #
+    scope :unread, where(:read_at => nil)
+
     # global - A Scope to filter global messages
     #
     scope :global, where(:messageable_id => nil)

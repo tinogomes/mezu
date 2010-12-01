@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :messages do
       member do
         get :remove
+        put :read, :as => :mark_as_read
       end
     end
   end

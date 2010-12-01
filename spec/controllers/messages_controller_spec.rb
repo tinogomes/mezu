@@ -112,4 +112,19 @@ describe Mezu::MessagesController do
     end
   end
 
+  context "PUT :read" do
+    it "should be sucess even not authenticate" do
+      message = create_message(:messageable => blog_post, :expires_at => nil)
+
+      put :read, :id => message
+
+      response.should be_success
+    end
+
+    it "should raise if not put request" do
+      get :read, :id => message
+
+      response.should be_not_found
+    end
+  end
 end

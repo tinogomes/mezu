@@ -118,7 +118,7 @@ h2 {
   list-style: none;
   position: absolute;
   right: 10px;
-  top: 40px;
+  top: 50px;
 }
 
 .actions li {
@@ -199,7 +199,7 @@ h3 {
 }
 
 .body {
-  width: 750px;
+  width: 550px;
 }
 
 pre {

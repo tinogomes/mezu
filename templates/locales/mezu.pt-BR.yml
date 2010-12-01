@@ -8,6 +8,7 @@ pt-BR:
       level: "Tipo"
       messageable_type: "Modelo"
       messageable_id: "ID do Registro"
+      read_at: "Lida em"
       title: "Título"
       updated_at: "Última Atualização em"
     cancel: "Cancelar"

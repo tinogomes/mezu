@@ -14,20 +14,31 @@ module Mezu
     validates_presence_of :title, :body
     validates_presence_of :expires_at, :if => lambda {|m| m.messageable_id.nil? }
     validates_inclusion_of :level, :in => LEVELS
+    validate :check_locale
 
     belongs_to :messageable, :polymorphic => true
 
     # active - A Scope to filter messages are not expired
     #
-    scope :active, where("expires_at IS NULL or expires_at > '#{Time.now}'")
+    scope :active, proc {
+      where("expires_at IS NULL or expires_at > '#{Time.now}'")
+    }
 
     # by_newest - A Scope to sort newest messages
     #
     scope :by_newest, order("created_at DESC")
 
+    # by_locale - A Scope to return messages from a specific locale
+    #
+    scope :by_locale, proc {|locale|
+      where(:locale => locale.to_s)
+    }
+
     # expired - A Scope to filter expired messages
     #
-    scope :expired, where("expires_at <= '#{Time.now}'")
+    scope :expired, proc {
+      where("expires_at <= '#{Time.now}'")
+    }
 
     # for_messageable(<tt>item</tt>) - A Scope to filter messages for some item messageable
     # <tt>item</tt> - It is some instance of your model
@@ -92,5 +103,11 @@ module Mezu
       update_attribute(:read_at, Time.now)
     end
 
+    private
+    # This needs to be checked manually; otherwise,
+    # validates_inclusion_of will cache the list.
+    def check_locale # :nodoc:
+      errors.add(:locale, :inclusion, :value => locale) unless Mezu::Config.available_locales.collect(&:to_s).include?(locale.to_s)
+    end
   end
 end

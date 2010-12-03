@@ -6,6 +6,7 @@ pt-BR:
       created_at: "Data de Criação"
       expires_at: "Data de Expiração"
       level: "Tipo"
+      locale: "Idioma"
       messageable_type: "Modelo"
       messageable_id: "ID do Registro"
       read_at: "Lida em"
@@ -24,7 +25,7 @@ pt-BR:
     invalid_recipient: "Destinatário inválido"
     languages:
       pt-BR: "Português"
-      en: "English"
+      en: "Inglês"
     legend: "Legenda"
     levels:
       error: "Erro"

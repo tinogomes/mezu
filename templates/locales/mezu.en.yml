@@ -6,6 +6,7 @@ en:
       created_at: "Created at"
       expires_at: "Expires at"
       level: "Level"
+      locale: "Locale"
       messageable_type: "Model"
       messageable_id: "Record ID"
       read_at: "Read at"
@@ -23,7 +24,7 @@ en:
     global_message: "Send to everybody"
     invalid_recipient: "Invalid recipient"
     languages:
-      pt-BR: "Português"
+      pt-BR: "Brazilian Portuguese"
       en: "English"
     legend: "Legend"
     levels:

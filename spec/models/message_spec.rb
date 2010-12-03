@@ -4,11 +4,14 @@ describe Mezu::Message do
   let!(:message) { create_message(:created_at => 50.days.ago) }
   let!(:private_message) { create_message(:messageable => message, :expires_at => nil,:created_at => 40.days.ago) }
   let!(:expired_message) { create_message(:expires_at => 1.day.ago, :created_at => 30.days.ago)}
+  let!(:portuguese_message)  { create_message(:locale => "pt-BR") }
 
   it { should belong_to(:messageable) }
 
   it { should validate_presence_of(:title) }
   it { should validate_presence_of(:body) }
+  it { should allow_value(:en).for(:locale) }
+  it { should_not allow_value(:ja).for(:locale) }
 
   it "should validate presence of expires_at for global message" do
     Mezu::Message.new.should validate_presence_of(:expires_at)
@@ -42,15 +45,19 @@ describe Mezu::Message do
   end
 
   it "should list only avaliable messages" do
-    Mezu::Message.all == [private_message, message]
+    Mezu::Message.all == [private_message, message, portuguese_message]
   end
 
   it "should list all messages" do
-    Mezu::Message.with_expired.all == [expired_message, private_message, message]
+    Mezu::Message.with_expired.all == [portuguese_message, expired_message, private_message, message]
   end
 
   it "should list only expired messages" do
     Mezu::Message.expired.all == [expired_message]
+  end
+
+  it "should list only portuguese messages" do
+    Mezu::Message.by_locale("pt-BR").all.should == [portuguese_message]
   end
 
   it "should list messages for some element" do
@@ -76,11 +83,10 @@ describe Mezu::Message do
   describe "- checking pagination" do
     before(:all) do
       silence_warnings { Mezu::Message::PER_PAGE = 2 }
-      @another_message = create_message(:expires_at => 1.days.from_now)
     end
 
     it "should list for first page" do
-      Mezu::Message.for_page(1).all.should == [@another_message, private_message, message]
+      Mezu::Message.for_page(1).all.should == [portuguese_message, private_message, message]
     end
 
     it "should list for second page" do

@@ -24,4 +24,10 @@ Mezu.configure do |config|
   # uncomment the following line and replace it with your own list.
   #
   #   config.models = %w[User]
+
+  # You can set which locales messages can be translated to.
+  # Just uncomment the following line and set your own list. By default, I18n.available_locales
+  # will be used.
+  #
+  #    config.available_locales = [:en, :"pt-BR"]
 end

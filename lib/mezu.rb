@@ -11,7 +11,6 @@ module Mezu
     Dir["app/models/**/*.rb"].each do |f|
       begin
         load f
-        # f.gsub(%r[^app/models/(.*?)\.rb$], '\\1').classify.constantize
       rescue
         nil
       end

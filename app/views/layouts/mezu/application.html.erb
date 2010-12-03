@@ -10,9 +10,9 @@
 		<div id="header">
 			<h1 class="container"><%= link_to "Mezu", mezu_root_path %></h1>
 
-			<% if I18n.available_locales.length > 1 %>
+			<% if Mezu::Config.available_locales.length > 1 %>
 				<ul id="locales">
-					<% I18n.available_locales.each do |locale| %>
+					<% Mezu::Config.available_locales.each do |locale| %>
 						<li class="<%= (I18n.locale == locale) ? "current" : "" %>">
 							<%= link_to t("mezu.languages.#{locale}"), "?l=#{locale}", :class => "locale-#{locale}" %>
 						</li>

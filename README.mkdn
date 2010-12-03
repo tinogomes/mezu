@@ -107,25 +107,20 @@ To protect mezu system messages access on your CRUD, go to config/initializers/m
 	<% end %>
 	...
 
-### An propose to use with I18n
+### I18n support
 
-Create some pattern on your messages, like (I18n: key)...
+If you're handling more than one locale, you can configure which locales you can associate messages with.
+Just go to `config/initializers/mezu.rb` and set the available locales:
 
-	Mezu::Message.create :title => "I18n: some.system.message.title", :body => "I18n: some.system.message.body"
+	Mezu.configure do
+	  config.available_locales = [:en, :"pt-BR"]
+	end
 
-On layout/views:
+By default, these will return the `I18n.available_locales` list.
 
-	<%= message.body.match(/^I18n:\s(\S+)$/) ? t($1) : message.body %>
+You can then filter the message with `by_locale` scope:
 
-On your I18n file (config/locale/en.yml)
-
-	:en
-	...
-	  some:
-	    system:
-	      message:
-	        body:  "Body message on I18n English file"
-	        title: "Title message on I18n English file"
+	Mezu::Message.for_messageable(current_user).by_locale(I18n.locale)
 
 ## Maintainer
 

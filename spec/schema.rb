@@ -1,11 +1,12 @@
 ActiveRecord::Schema.define(:version => 0) do
   create_table :mezu_messages do |t|
-    t.string        :title, :limit => 50
-    t.string        :level, :limit => 10
+    t.string        :title, :null => false
+    t.string        :level, :limit => 10, :null => false
     t.string        :body
+    t.string        :locale, :null => false
     t.datetime      :expires_at
     t.datetime      :read_at
-    t.references    :messageable, :polymorphic => true
+    t.references    :messageable, :polymorphic => true, :null => true
 
     t.timestamps
   end

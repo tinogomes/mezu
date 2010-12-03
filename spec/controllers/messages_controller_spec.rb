@@ -30,7 +30,7 @@ describe Mezu::MessagesController do
   context "POST :create" do
     it "should be success for global message" do
       expect {
-        post :create, :message => {:title => "title", :body => "body", :expires_at => "2012-12-24", :level => "info"}
+        post :create, :message => {:title => "title", :body => "body", :expires_at => "2012-12-24", :level => "info", :locale => "en"}
       }.to change(Mezu::Message, :count).by(1)
 
       flash[:notice].should == I18n.t("mezu.flash.created_successful")
@@ -39,7 +39,7 @@ describe Mezu::MessagesController do
 
     it "should be success for private message" do
       expect {
-        post :create, :message => {:title => "title", :body => "body", :level => "info", :messageable_type => "Post", :messageable_id => blog_post}
+        post :create, :message => {:title => "title", :body => "body", :level => "info", :messageable_type => "Post", :messageable_id => blog_post, :locale => "en"}
       }.to change(Mezu::Message, :count).by(1)
 
       flash[:notice].should == I18n.t("mezu.flash.created_successful")

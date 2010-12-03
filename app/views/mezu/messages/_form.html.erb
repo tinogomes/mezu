@@ -29,6 +29,15 @@
 	<%= f.text_field :messageable_id %>
 </p>
 
+<% if Mezu::Config.available_locales.size > 1 %>
+	<p>
+		<%= f.label :locale, t("mezu.attributes.locale") %>
+		<%= f.select :locale, Mezu::Config.available_locales, :include_blank => true %>
+	</p>
+<% else %>
+	<%= hidden_field_tag "message[locale]", Mezu::Config.available_locales.first %>
+<% end %>
+
 <% unless @message.new_record? %>
 	<p>
 		<%= f.label :created_at, t("mezu.attributes.created_at") %>

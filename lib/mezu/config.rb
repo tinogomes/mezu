@@ -6,6 +6,11 @@ module Mezu
   module Config
     class << self
       attr_accessor :authenticate, :on_load, :models
+      attr_writer :available_locales
+    end
+
+    def self.available_locales
+      @available_locales || I18n.available_locales
     end
 
     def self.autoload_locales!

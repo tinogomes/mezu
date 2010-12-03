@@ -2,7 +2,7 @@ require "rails/generators/base"
 
 module Mezu
   class InstallGenerator < ::Rails::Generators::Base
-    source_root File.dirname(__FILE__) + "/../../templates"
+    source_root File.dirname(__FILE__) + "/../../../templates"
 
     def copy_initializer_file
       copy_file "initializer.rb", "config/initializers/mezu.rb"

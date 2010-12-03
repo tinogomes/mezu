@@ -1,7 +1,8 @@
 module Mezu
   class Engine < Rails::Engine
     generators do
-      require "mezu/generators"
+      require "mezu/generators/install"
+      require "mezu/generators/copy_locales"
     end
 
     config.after_initialize do

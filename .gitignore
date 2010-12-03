@@ -3,3 +3,4 @@ pkg/*
 .bundle
 *.log
 .rvmrc
+coverage

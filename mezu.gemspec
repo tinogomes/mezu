@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = "mezu"
   s.version     = Mezu::Version::STRING
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Tino Gomes"]
-  s.email       = ["tinorj@gmail.com"]
+  s.authors     = ["Tino Gomes", "Nando Vieira"]
+  s.email       = ["tinorj@gmail.com", "fnando.vieira@gmail.com"]
   s.homepage    = "http://github.com/tinogomes/mezu"
   s.summary     = %q{Mezu is a Rails 3 Engine to manager system messages globally, or for a specific object.}
   s.description = s.summary

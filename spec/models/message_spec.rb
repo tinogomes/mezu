@@ -25,9 +25,7 @@ describe Mezu::Message do
     it { should allow_value(valid_value).for(:level)}
   end
 
-  %w(invalid values for level).each do |invalid_value|
-    it { should_not allow_value(invalid_value).for(:level) }
-  end
+  it { should_not allow_value("invalid").for(:level) }
 
   it "should list all available global messages" do
     Mezu::Message.global.last.should == message
@@ -80,20 +78,20 @@ describe Mezu::Message do
     }.to raise_error(Mezu::YouCannotMarkGlobalMessagesAsReadError)
   end
 
-  describe "- checking pagination" do
+  context "with pagination" do
     before(:all) do
       silence_warnings { Mezu::Message::PER_PAGE = 2 }
     end
 
-    it "should list for first page" do
+    it "should return list for first page" do
       Mezu::Message.for_page(1).all.should == [portuguese_message, private_message, message]
     end
 
-    it "should list for second page" do
+    it "should return list for second page" do
       Mezu::Message.for_page(2).all.should == [message]
     end
 
-    it "should list for last page" do
+    it "should return list for last page" do
       Mezu::Message.for_page(3).all.should == []
     end
   end

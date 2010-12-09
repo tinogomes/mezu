@@ -18,30 +18,29 @@ module Mezu
 
     belongs_to :messageable, :polymorphic => true
 
-    # active - A Scope to filter messages are not expired
+    # Return messages that haven't expired.
     #
     scope :active, proc {
       where("expires_at IS NULL or expires_at > '#{Time.now}'")
     }
 
-    # by_newest - A Scope to sort newest messages
+    # Sort messages from newest to oldest.
     #
     scope :by_newest, order("created_at DESC")
 
-    # by_locale - A Scope to return messages from a specific locale
+    # Return messages from a given locale.
     #
     scope :by_locale, proc {|locale|
       where(:locale => locale.to_s)
     }
 
-    # expired - A Scope to filter expired messages
+    # Return messages that expired.
     #
     scope :expired, proc {
       where("expires_at <= '#{Time.now}'")
     }
 
-    # for_messageable(<tt>item</tt>) - A Scope to filter messages for some item messageable
-    # <tt>item</tt> - It is some instance of your model
+    # Return messages attached to a given object.
     #
     scope :for_messageable, proc {|item|
       if item
@@ -52,51 +51,43 @@ module Mezu
       end
     }
 
-    # unread - A Scope to filter only unread messages
+    # Return unread messages.
     #
     scope :unread, where(:read_at => nil)
 
-    # global - A Scope to filter global messages
+    # Return global messages.
     #
     scope :global, where(:messageable_id => nil)
 
-    # top(<tt>number</tt>) - A Scope to limit number of messages to see
-    # <tt>number</tt> - number of messages you want to see.
-    #
-    scope :top, proc {|n|
-      n = [n.to_i, 1].max
-      limit(n)
-    }
-
     default_scope active.by_newest
 
-    # with_expired - A Scope to see all messages (private and global)
+    # Return all messages, including private and global messages.
     #
     def self.with_expired
       unscoped.order("created_at DESC")
     end
 
-    # for_page(<tt>page</tt>) - A Scope to filter messages for some page number (10 messages per page)
-    # <tt>page</tt> - a number that represents page you want see messages
+    # Return messages for a given page.
     #
     def self.for_page(page)
       page = [page.to_i, 1].max - 1
       offset(page * PER_PAGE).limit(PER_PAGE + 1)
     end
 
-    # global? - Return true/false if message are global or not.
+    # Return true if is a global message.
     #
     def global?
       messageable_id.nil?
     end
 
-    # expired? - Returns true/false if message is expired
+    # Return true if message is expired
     #
     def expired?
       expires_at? && expires_at < Time.now
     end
 
-    # read! - Marks the message as read. Only wokrs for private messages. For global messages will raise!
+    # Marks the message as read. Only works for private messages.
+    # Global messages will raise an exception.
     #
     def read!
       raise YouCannotMarkGlobalMessagesAsReadError if global?

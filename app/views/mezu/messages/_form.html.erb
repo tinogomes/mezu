@@ -47,12 +47,6 @@
 		<%= f.label :updated_at, t("mezu.attributes.updated_at") %>
 		<%= f.text_field :updated_at, :readonly => true %>
 	</p>
-	<% if @message.read_at? %>
-		<p>
-			<%= f.label :read_at, t("mezu.attributes.read_at") %>
-			<%= f.text_field :read_at, :readonly => true %>
-		</p>
-	<% end %>
 <% end %>
 
 <script type="text/javascript">

@@ -12,12 +12,6 @@
 				<%= l(message.expires_at) %>
 			</li>
 		<% end %>
-		<% if message.read_at? %>
-			<li class="read-at">
-				<strong><%= t("mezu.attributes.read_at") %></strong>
-				<%= l(message.read_at) %>
-			</li>
-		<% end %>
 	</ul>
 
 	<p class="body"><%= message.body %></p>

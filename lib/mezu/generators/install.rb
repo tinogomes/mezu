@@ -14,7 +14,7 @@ module Mezu
       stamp = proc {|time| time.utc.strftime("%Y%m%d%H%M%S")}
 
       [:messages, :readings].each_with_index do |name, i|
-        copy_file "migration/#{name}.rb",
+        copy_file "migrations/#{name}.rb",
                   "db/migrate/#{stamp[i.second.from_now]}_create_mezu_#{name}.rb"
       end
     end

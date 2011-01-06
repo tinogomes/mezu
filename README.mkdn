@@ -4,7 +4,7 @@ Mezu is a Rails 3 Engine to manage system messages globally, or for a specific o
 
 **Tested only with Ruby 1.9.2**
 
-## How to Install ?
+## How to Install?
 
 It's a piece of cake!
 
@@ -16,19 +16,20 @@ It's a piece of cake!
 
 	$ bundle install # Of course, you can execute `gem install mezu`
 
-### Execute Mezu generator
+### Run Mezu generator
 
 	rails generate mezu:install
 
-### Execute apply migrations
+### Run migrations
 
 	rake db:migrate
 
-## What mezu:install generator do ?
+## What does mezu:install generate?
 
 This step create some files on your Rails project...
 
-	config/db/yyyymmddhhmmss_create_mezu_messages.rb
+	db/migrate/yyyymmddhhmmss_create_mezu_messages.rb
+	db/migrate/yyyymmddhhmmss_create_mezu_readings.rb
 	config/initializers/mezu.rb
 	public/mezu/mezu.css
 
@@ -37,11 +38,11 @@ This step create some files on your Rails project...
 	class CreateMezuMessages < ActiveRecord::Migration
 	  def self.up
 	    create_table :mezu_messages do |t|
-	      t.string        :title
-	      t.string        :level, :limit => 10
-	      t.string        :body
+	      t.string        :title, :null => false
+	      t.string        :level, :limit => 10, :null => false
+	      t.text          :body
+	      t.string        :locale, :null => false
 	      t.datetime      :expires_at
-	      t.datetime      :read_at
 	      t.references    :messageable, :polymorphic => true, :null => true
 
 	      t.timestamps
@@ -55,62 +56,40 @@ This step create some files on your Rails project...
 	  end
 	end
 
+	class CreateMezuReadings < ActiveRecord::Migration
+	  def self.up
+	    create_table :mezu_readings do |t|
+	      t.references :message, :null => false
+	      t.references :related, :polymorphic => true, :null => false
+	      t.timestamps
+	    end
+
+	    add_index :mezu_readings, :message_id
+	  end
+
+	  def self.down
+	    drop_table :mezu_readings
+	  end
+	end
+
 ## How to use?
 
-This engine adds on your app the path /mezu, to CRUD your mezu system messages
+This engine adds on your app the path `/mezu`, to CRUD your mezu system messages
 
-To protect mezu system messages access on your CRUD, go to config/initializers/mezu.rb file and implement your powerful authentication protection.
+To protect mezu system messages access on your CRUD, go to `config/initializers/mezu.rb` file and implement your powerful authentication protection.
 
-## Examples
+### Marking message as read
 
-### To display global system messages on your view:
+	message = Mezu::Message.first
+	message.read_by!(user)
 
-	# app/controllers/application_controller.rb
-	class ApplicationController < ...
-	  ...
-	  before_filter do load_global_mezu_messages
-	    @mezu_messages = Mezu::Message.global.all
-	  end
-	  ...
-	end
+### Listing unread messages for a given user
 
-	# app/views/layouts/application.html.erb
-	...
-	<% if @mezu_messages.any? %>
-	  <ul id="global-mezu-messages">
-	    <% @mezu_messages.each do |message| %>
-	      <li class="<%= message.level %>"><%= message.body %></li>
-	    <% end %>
-	  </ul>
-	<% end %>
-	...
-
-### To display user's system messages, supposing you have current_user helper method.
-
-	# app/controllers/application_controllers.rb
-	class ApplicationController < ...
-	  ...
-	  before_filter do load_mezu_messages_for_current_user
-	    @user_mezu_messages = Mezu::Message.for_messageable(current_user).all
-	  end
-	  ...
-	end
-
-	# app/views/layouts/application.html.erb
-	...
-	<% if @user_mezu_messages.any? %>
-	  <ul id="user-mezu-messages">
-	    <% @user_mezu_messages.each do |message| %>
-	      <li class="<%= message.level %>"><%= message.body %></li>
-	    <% end %>
-	  </ul>
-	<% end %>
-	...
+	Mezu::Message.unread_by(user)
 
 ### I18n support
 
-If you're handling more than one locale, you can configure which locales you can associate messages with.
-Just go to `config/initializers/mezu.rb` and set the available locales:
+If you're handling more than one locale, you can configure which locales you can associate messages with. Just go to `config/initializers/mezu.rb` and set the available locales:
 
 	Mezu.configure do
 	  config.available_locales = [:en, :"pt-BR"]
@@ -120,7 +99,7 @@ By default, these will return the `I18n.available_locales` list.
 
 You can then filter the message with `by_locale` scope:
 
-	Mezu::Message.for_messageable(current_user).by_locale(I18n.locale)
+	Mezu::Message.by_locale(I18n.locale)
 
 ## Maintainer
 

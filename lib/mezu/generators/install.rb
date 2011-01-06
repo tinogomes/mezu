@@ -9,11 +9,14 @@ module Mezu
     end
 
     def copy_migrations
-      return if migration_exists?(:messages)
+      return if migration_exists?(:messages, :readings)
 
       stamp = proc {|time| time.utc.strftime("%Y%m%d%H%M%S")}
 
-      copy_file "migration.rb", "db/migrate/#{stamp[Time.now]}_create_mezu_messages.rb"
+      [:messages, :readings].each_with_index do |name, i|
+        copy_file "migration/#{name}.rb",
+                  "db/migrate/#{stamp[i.second.from_now]}_create_mezu_#{name}.rb"
+      end
     end
 
     def copy_assets

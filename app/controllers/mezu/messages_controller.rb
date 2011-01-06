@@ -40,12 +40,6 @@ module Mezu
       redirect_to mezu_messages_path
     end
 
-    def read
-      render(:nothing => true, :status => 404) and return unless request.put?
-      @message.read!
-      render :text => "Ok"
-    end
-
     private
     def load_message
       @message = Mezu::Message.with_expired.find(params[:id])

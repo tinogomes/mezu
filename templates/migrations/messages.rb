@@ -3,10 +3,9 @@ class CreateMezuMessages < ActiveRecord::Migration
     create_table :mezu_messages do |t|
       t.string        :title, :null => false
       t.string        :level, :limit => 10, :null => false
-      t.string        :body
+      t.text          :body
       t.string        :locale, :null => false
       t.datetime      :expires_at
-      t.datetime      :read_at
       t.references    :messageable, :polymorphic => true, :null => true
 
       t.timestamps

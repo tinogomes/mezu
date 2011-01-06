@@ -5,6 +5,7 @@ describe Mezu::Message do
   let!(:private_message) { create_message(:messageable => message, :expires_at => nil,:created_at => 40.days.ago) }
   let!(:expired_message) { create_message(:expires_at => 1.day.ago, :created_at => 30.days.ago)}
   let!(:portuguese_message)  { create_message(:locale => "pt-BR") }
+  let(:user) { User.create }
 
   it { should belong_to(:messageable) }
 
@@ -64,18 +65,6 @@ describe Mezu::Message do
 
   it "should return empty for invalid messageable" do
     Mezu::Message.for_messageable(nil).should == []
-  end
-
-  it "should mark the message as read" do
-    expect {
-      private_message.read!
-    }.to change(private_message, :read_at)
-  end
-
-  it "should raise when try mark as read a global message" do
-    expect {
-      message.read!
-    }.to raise_error(Mezu::YouCannotMarkGlobalMessagesAsReadError)
   end
 
   context "with pagination" do

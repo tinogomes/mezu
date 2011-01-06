@@ -17,6 +17,7 @@ module Mezu
     validate :check_locale
 
     belongs_to :messageable, :polymorphic => true
+    has_many :readings, :class_name => "Mezu::Reading", :foreign_key => "message_id"
 
     # Return messages that haven't expired.
     #
@@ -53,7 +54,16 @@ module Mezu
 
     # Return unread messages.
     #
-    scope :unread, where(:read_at => nil)
+    scope :unread_by, lambda {|related|
+      select("mezu_messages.*").
+      joins("
+        LEFT JOIN mezu_readings ON
+        mezu_readings.message_id = mezu_messages.id AND
+        mezu_readings.related_type = '#{related.class.name}' AND
+        mezu_readings.related_id = #{related.id.to_i}
+      ").
+      where("mezu_readings.message_id IS NULL")
+    }
 
     # Return global messages.
     #
@@ -86,12 +96,24 @@ module Mezu
       expires_at? && expires_at < Time.now
     end
 
-    # Marks the message as read. Only works for private messages.
-    # Global messages will raise an exception.
+    # Mark message as read and associate it to the related object.
     #
-    def read!
-      raise YouCannotMarkGlobalMessagesAsReadError if global?
-      update_attribute(:read_at, Time.now)
+    #   @message = Mezu::Message.first
+    #   @user = User.first
+    #   @message.read_by!(@user)
+    #
+    def read_by!(related)
+      readings.create(:related => related) unless read_by?(related)
+    end
+
+    # Check if a message has been read by the related object.
+    #
+    #   @message = Mezu::Message.first
+    #   @user = User.first
+    #   @message.read_by?(@user)
+    #
+    def read_by?(related)
+      readings.from_related(related).first
     end
 
     private

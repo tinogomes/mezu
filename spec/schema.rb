@@ -14,11 +14,12 @@ ActiveRecord::Schema.define(:version => 0) do
 
   create_table :mezu_readings do |t|
     t.references :message, :null => false
-    t.references :related, :polymorphic => true, :null => false
+    t.references :reader, :polymorphic => true, :null => false
     t.timestamps
   end
 
   add_index :mezu_readings, :message_id
+  add_index :mezu_readings, [:message_id, :reader_id, :reader_type]
 
   create_table :users do |t|
     t.string :login

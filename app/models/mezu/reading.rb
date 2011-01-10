@@ -3,12 +3,12 @@ module Mezu
     set_table_name "mezu_readings"
 
     belongs_to :message, :class_name => "Mezu::Message"
-    belongs_to :related, :polymorphic => true
+    belongs_to :reader, :polymorphic => true
 
     validates_presence_of :message
 
-    scope :from_related, lambda {|related|
-      where(:related_id => related).where(:related_type => related.class.name)
+    scope :from_reader, lambda {|reader|
+      where(:reader_id => reader.id, :reader_type => reader.class.name)
     }
   end
 end

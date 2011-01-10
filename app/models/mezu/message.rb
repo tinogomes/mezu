@@ -1,10 +1,4 @@
 module Mezu
-  class YouCannotMarkGlobalMessagesAsReadError < RuntimeError
-    def message
-      "You cannot mark global messages as read"
-    end
-  end
-
   class Message < ActiveRecord::Base
     set_table_name "mezu_messages"
 
@@ -41,33 +35,44 @@ module Mezu
       where("expires_at <= '#{Time.now}'")
     }
 
-    # Return messages attached to a given object.
+    # Return messages based on model name and ids.
     #
-    scope :for_messageable, proc {|item|
-      if item
-        where({:messageable_type => item.class.name, :messageable_id => item.id})
-      else
-        # Workaround to return an empty result
-        where("1 > 2")
+    #   Mezu::Message.list(:thing => 1)
+    #
+    scope :list, proc {|options|
+      options = {options.class.name.underscore.to_sym => options.id} unless options.kind_of?(Hash)
+      options.reverse_merge!(:global => true)
+
+      query = select("DISTINCT(mezu_messages.id), mezu_messages.*").
+              joins("LEFT JOIN mezu_readings ON mezu_readings.message_id = mezu_messages.id")
+
+      conditions = [].tap do |c|
+        # Retrive global messages
+        c << %[(messageable_type IS NULL)] if options.delete(:global)
+
+        # Retrieve message for provided AR classes
+        options.each do |class_name, ids|
+          ids = [ids].flatten.compact
+          next if ids.empty?
+          c << %[(messageable_type = "#{class_name.to_s.classify}" AND messageable_id IN(:#{class_name}))]
+        end
       end
+
+      # Only apply condition if conditions is set
+      query = query.where(%[(#{conditions.join(" OR ")})], options) if conditions.any?
+      query
     }
 
-    # Return unread messages.
-    #
-    scope :unread_by, lambda {|related|
-      select("mezu_messages.*").
-      joins("
-        LEFT JOIN mezu_readings ON
-        mezu_readings.message_id = mezu_messages.id AND
-        mezu_readings.related_type = '#{related.class.name}' AND
-        mezu_readings.related_id = #{related.id.to_i}
-      ").
-      where("mezu_readings.message_id IS NULL")
+    scope :unread_by, proc {|reader|
+      where(
+        "mezu_messages.id NOT IN(
+          SELECT mezu_readings.message_id
+          FROM mezu_readings
+          WHERE reader_type = :type AND reader_id = :id
+        )",
+        :type => reader.class.name, :id => reader.id
+      )
     }
-
-    # Return global messages.
-    #
-    scope :global, where(:messageable_id => nil)
 
     default_scope active.by_newest
 
@@ -96,24 +101,24 @@ module Mezu
       expires_at? && expires_at < Time.now
     end
 
-    # Mark message as read and associate it to the related object.
+    # Mark message as read and associate it to the reader object.
     #
     #   @message = Mezu::Message.first
     #   @user = User.first
     #   @message.read_by!(@user)
     #
-    def read_by!(related)
-      readings.create(:related => related) unless read_by?(related)
+    def read_by!(reader)
+      readings.create(:reader => reader) unless read_by?(reader)
     end
 
-    # Check if a message has been read by the related object.
+    # Check if a message has been read by the reader object.
     #
     #   @message = Mezu::Message.first
     #   @user = User.first
     #   @message.read_by?(@user)
     #
-    def read_by?(related)
-      readings.from_related(related).first
+    def read_by?(reader)
+      readings.from_reader(reader).first
     end
 
     private

@@ -60,7 +60,7 @@ This step create some files on your Rails project...
 	  def self.up
 	    create_table :mezu_readings do |t|
 	      t.references :message, :null => false
-	      t.references :related, :polymorphic => true, :null => false
+	      t.references :reader, :polymorphic => true, :null => false
 	      t.timestamps
 	    end
 
@@ -78,6 +78,10 @@ This engine adds on your app the path `/mezu`, to CRUD your mezu system messages
 
 To protect mezu system messages access on your CRUD, go to `config/initializers/mezu.rb` file and implement your powerful authentication protection.
 
+### Retrieve messages for several object classes
+
+	messages = Mezu::Message.list(:user => current_user.id, :group => current_user.group_ids)
+
 ### Marking message as read
 
 	message = Mezu::Message.first
@@ -85,7 +89,7 @@ To protect mezu system messages access on your CRUD, go to `config/initializers/
 
 ### Listing unread messages for a given user
 
-	Mezu::Message.unread_by(user)
+	Mezu::Message.list(:user => current_user.id, :group => current_user.group_ids).unread_by(current_user)
 
 ### I18n support
 

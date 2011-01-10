@@ -1,11 +1,11 @@
 require "spec_helper"
 
 describe Mezu::Message do
+  let!(:user) { User.create }
   let!(:message) { create_message(:created_at => 50.days.ago) }
-  let!(:private_message) { create_message(:messageable => message, :expires_at => nil,:created_at => 40.days.ago) }
+  let!(:private_message) { create_message(:messageable => user, :expires_at => nil,:created_at => 40.days.ago) }
   let!(:expired_message) { create_message(:expires_at => 1.day.ago, :created_at => 30.days.ago)}
   let!(:portuguese_message)  { create_message(:locale => "pt-BR") }
-  let(:user) { User.create }
 
   it { should belong_to(:messageable) }
 
@@ -29,7 +29,11 @@ describe Mezu::Message do
   it { should_not allow_value("invalid").for(:level) }
 
   it "should list all available global messages" do
-    Mezu::Message.global.last.should == message
+    Mezu::Message.list(:global => true).all.should == [portuguese_message, message]
+  end
+
+  it "should list both global and private messages" do
+    Mezu::Message.list(:global => true, :user => user.id).all.should == [portuguese_message, private_message, message]
   end
 
   it "should be global" do
@@ -59,12 +63,12 @@ describe Mezu::Message do
     Mezu::Message.by_locale("pt-BR").all.should == [portuguese_message]
   end
 
-  it "should list messages for some element" do
-    Mezu::Message.for_messageable(message).should == [private_message]
+  it "should list global and private messages for some element" do
+    Mezu::Message.list(user).should == [portuguese_message, private_message, message]
   end
 
   it "should return empty for invalid messageable" do
-    Mezu::Message.for_messageable(nil).should == []
+    Mezu::Message.list(:invalid => 1, :global => false).all.should == []
   end
 
   context "with pagination" do

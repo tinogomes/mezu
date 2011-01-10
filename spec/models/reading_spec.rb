@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe Mezu::Reading do
-  let(:user) { User.create! }
+  let!(:user) { User.create! }
   let!(:private_message) { create_message(:messageable => user) }
   let!(:global_message) { create_message }
 
@@ -26,7 +26,8 @@ describe Mezu::Reading do
     let!(:another_reading) { global_message.read_by!(another_user) }
 
     it "should return unread messages" do
-      Mezu::Message.unread_by(user).all.should == [private_message]
+      Mezu::Message.list(user).unread_by(user).all.should == [private_message]
+      Mezu::Message.list(another_user).unread_by(another_user).should be_empty
     end
   end
 end

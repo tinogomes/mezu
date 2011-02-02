@@ -105,15 +105,6 @@ You can then filter the message with `by_locale` scope:
 
 	Mezu::Message.by_locale(I18n.locale)
 
-## Maintainer
+## Maintainer and Contributors
 
-- [Tino Gomes](http://github.com/tinogomes)
-
-## Contributors
-
-- [Nando Vieira](http://github.com/fnando)
-- [PotHix](http://github.com/pothix)
-
-## License
-
-Copyright (c) 2010 Celestino Gomes, released under the Creative Commons license
+See on commits!

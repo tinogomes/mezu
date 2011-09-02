@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.files         = Dir["./**/*"].reject {|file| file =~ /\.git|pkg/}
   s.require_paths = ["lib"]
 
-  s.add_dependency "rails", "~> 3.1.0"
+  s.add_dependency "rails", "~> 3.0"
 
   s.add_development_dependency "ruby-debug19"
   s.add_development_dependency "rake"

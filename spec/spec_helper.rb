@@ -33,6 +33,10 @@ RSpec.configure do |config|
     Mezu::Config.autoload_locales!
     Mezu::Config.authenticate = proc { true }
   end
+
+  config.after do
+    Mezu::Config.models = nil
+  end
 end
 
 require_dependency "post"

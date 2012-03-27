@@ -1,0 +1,21 @@
+# 0.3.0 - 27/apr/2012
+
+4512497 Update arel version to fix default_scope bug
+
+# 0.2.1 - 02/sep/2011
+
+23a6a56 Changing Rails dependency to use 3.x family
+
+# 0.2.0 - 02/sep/2011
+
+4e5603f Removing syscalls to avoid errors on the production environment
+b009d8b Bump rails version to 3.1
+7dba805 replacing LICENSE terms
+
+# 0.1.0 - 20/jan/2011
+
+a29da48 Reimplemented searching/listing messages; we can now provide a hash with search options.
+a80ee90 Removed read_at attribute from form and listing.
+b5025f1 Fixed source path
+0934ed3 Both global and private messages can be marked as read.
+f140957 Added sperm-operator for gem versions.

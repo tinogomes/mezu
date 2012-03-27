@@ -74,7 +74,7 @@ module Mezu
       )
     }
 
-    default_scope active.by_newest
+    default_scope { active.by_newest }
 
     # Return all messages, including private and global messages.
     #

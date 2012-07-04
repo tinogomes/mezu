@@ -1,6 +1,6 @@
 module Mezu
   class Reading < ActiveRecord::Base
-    set_table_name "mezu_readings"
+    self.table_name = "mezu_readings"
 
     belongs_to :message, :class_name => "Mezu::Message"
     belongs_to :reader, :polymorphic => true

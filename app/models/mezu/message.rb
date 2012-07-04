@@ -1,6 +1,6 @@
 module Mezu
   class Message < ActiveRecord::Base
-    set_table_name "mezu_messages"
+    self.table_name = "mezu_messages"
 
     LEVELS = %w(info warn error)
     PER_PAGE = 10

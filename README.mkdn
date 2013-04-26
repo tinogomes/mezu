@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/tinogomes/mezu.png?branch=master)](http://travis-ci.org/tinogomes/mezu)
 [![Code Climate](https://codeclimate.com/github/tinogomes/mezu.png)](https://codeclimate.com/github/tinogomes/mezu)
+[![Coverage Status](https://coveralls.io/repos/tinogomes/mezu/badge.png?branch=master)](https://coveralls.io/r/tinogomes/mezu)
 
 Mezu is a Rails 3 Engine to manage system messages globally, or for a specific object.
 

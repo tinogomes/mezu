@@ -1,3 +1,7 @@
+require 'coveralls'
+Coveralls.wear!
+
+
 ENV["RAILS_ENV"] = "test"
 require "rails/all"
 require "mezu"

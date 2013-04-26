@@ -1,6 +1,7 @@
 require "spec_helper"
 
 describe Mezu::MessagesController do
+  let(:expired_date) { (Date.today + 1).strftime("%Y-%m-%d")   }
   let!(:message) { create_message }
   let!(:expired_message) { create_message(:expires_at => 1.day.ago) }
   let(:blog_post) { Post.create(:title => "title") }
@@ -29,7 +30,7 @@ describe Mezu::MessagesController do
   context "POST :create" do
     it "should be success for global message" do
       expect {
-        post :create, :message => {:title => "title", :body => "body", :expires_at => "2012-12-24", :level => "info", :locale => "en"}
+        post :create, :message => {:title => "title", :body => "body", :expires_at => expired_date, :level => "info", :locale => "en"}
       }.to change(Mezu::Message, :count).by(1)
 
       flash[:notice].should == I18n.t("mezu.flash.created_successful")
